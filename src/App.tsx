@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react";
-import "@fontsource/roboto/";
-import logo from "./logo.svg";
-import user from "./api/user";
-import loginout from "./api/loginout";
-import request from "./controller/request";
-import subscibe from "./api/subscibe";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "@fontsource/roboto/400.css";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 
 const App = (): JSX.Element => {
-  return <p>hell world</p>;
+  return (
+    <Router>
+      <Switch>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/">
+          <HomePage />
+        </Route>
+      </Switch>
+    </Router>
+  );
 };
 
 export default App;

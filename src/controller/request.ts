@@ -2,9 +2,7 @@ import axios from "axios";
 import backendURL from "../data/backendURL";
 
 class RequestController {
-  private config = {
-    headers: { Authorization: "" },
-  };
+  private config = { headers: {} };
 
   token: string | null = "";
 
