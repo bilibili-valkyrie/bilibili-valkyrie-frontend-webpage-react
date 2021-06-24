@@ -6,10 +6,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+import { AccountCircle, AccountCircleOutlined } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import React from "react";
+import { useHistory } from "react-router-dom";
+import loginout from "../api/loginout";
+import request from "../controller/request";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,9 +34,47 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const MenuItems = React.forwardRef(
+  (
+    props: {
+      handleMenuClose: VoidFunction;
+      token: string | null;
+      setToken: React.Dispatch<React.SetStateAction<string | null>>;
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ref
+  ) => {
+    const history = useHistory();
+    React.useEffect(() => {
+      props.setToken(localStorage.getItem("userToken"));
+    }, [props]);
+    if (props.token === null)
+      return (
+        <MenuItem
+          onClick={() => {
+            history.push("/login");
+          }}
+        >
+          登录/注册
+        </MenuItem>
+      );
+    request.setToken(props.token);
+    const handleExitClick = (event: React.MouseEvent) => {
+      event.preventDefault();
+      localStorage.removeItem("userToken");
+      props.setToken(null);
+      loginout.logout();
+      request.clearToken();
+      props.handleMenuClose();
+    };
+    return <MenuItem onClick={handleExitClick}>退&emsp;出</MenuItem>;
+  }
+);
+
 const TopBar = (): JSX.Element => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [token, setToken] = React.useState<string | null>(null);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -56,7 +97,11 @@ const TopBar = (): JSX.Element => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>退&emsp;出</MenuItem>
+      <MenuItems
+        handleMenuClose={handleMenuClose}
+        token={token}
+        setToken={setToken}
+      />
     </Menu>
   );
 
@@ -90,7 +135,7 @@ const TopBar = (): JSX.Element => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              {token === null ? <AccountCircleOutlined /> : <AccountCircle />}
             </IconButton>
           </div>
         </Toolbar>

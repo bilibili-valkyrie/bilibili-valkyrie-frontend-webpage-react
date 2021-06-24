@@ -8,6 +8,7 @@ import {
   Switch,
 } from "@material-ui/core";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import loginout from "../api/loginout";
 import user from "../api/user";
 import background from "../assets/background.png";
@@ -20,6 +21,7 @@ const LoginPage = (): JSX.Element => {
   const [name, setName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [islogin, setIslogin] = React.useState<boolean>(false);
+  const history = useHistory();
 
   const handleLoginClick = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -28,6 +30,7 @@ const LoginPage = (): JSX.Element => {
     const res = await loginout.login(username, password);
     request.setToken(res.token);
     localStorage.setItem("userToken", res.token);
+    history.push("/");
   };
 
   const handleSignUpClick = async (

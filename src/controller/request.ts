@@ -13,6 +13,10 @@ class RequestController {
     this.token = tokenToSet;
   }
 
+  clearToken() {
+    this.config = { headers: {} };
+  }
+
   async get(url: string) {
     const res = await axios.get(`${backendURL}${url}`, this.config);
     return res.data;
