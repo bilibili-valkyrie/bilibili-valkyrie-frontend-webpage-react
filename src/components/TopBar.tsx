@@ -13,6 +13,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import loginout from "../api/loginout";
 import request from "../controller/request";
+import useAxiosErrorHandler from "../hooks/useAxiosErrorHandler";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,6 +46,7 @@ const MenuItems = React.forwardRef(
     ref
   ) => {
     const history = useHistory();
+    const { handleErr } = useAxiosErrorHandler();
     React.useEffect(() => {
       props.setToken(localStorage.getItem("userToken"));
     }, [props]);
@@ -63,7 +65,11 @@ const MenuItems = React.forwardRef(
       event.preventDefault();
       localStorage.removeItem("userToken");
       props.setToken(null);
-      loginout.logout();
+      try {
+        loginout.logout();
+      } catch (e) {
+        handleErr(e);
+      }
       request.clearToken();
       props.handleMenuClose();
     };

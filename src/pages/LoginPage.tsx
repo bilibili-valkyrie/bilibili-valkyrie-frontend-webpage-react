@@ -5,16 +5,17 @@ import {
   Grid,
   Typography,
   Button,
-  Switch,
 } from "@material-ui/core";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import loginout from "../api/loginout";
 import user from "../api/user";
 import background from "../assets/background.png";
 import MyCard from "../components/MyCard";
 import TopBar from "../components/TopBar";
 import request from "../controller/request";
+import loginout from "../api/loginout";
+import useAxiosErrorHandler from "../hooks/useAxiosErrorHandler";
+import ColoredSwitch from "../components/ColoredSwitch";
 
 const LoginPage = (): JSX.Element => {
   const [username, setUsername] = React.useState<string>("");
@@ -22,25 +23,34 @@ const LoginPage = (): JSX.Element => {
   const [password, setPassword] = React.useState<string>("");
   const [islogin, setIslogin] = React.useState<boolean>(false);
   const history = useHistory();
+  const { handleErr } = useAxiosErrorHandler();
 
   const handleLoginClick = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    const res = await loginout.login(username, password);
-    request.setToken(res.token);
-    localStorage.setItem("userToken", res.token);
-    history.push("/");
+    try {
+      const res = await loginout.login(username, password);
+      request.setToken(res.token);
+      localStorage.setItem("userToken", res.token);
+      history.push("/");
+    } catch (e) {
+      handleErr(e);
+    }
   };
 
   const handleSignUpClick = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    await user.signUp(username, name, password);
-    const res = await loginout.login(username, password);
-    request.setToken(res.token);
-    localStorage.setItem("userToken", res.token);
+    try {
+      await user.signUp(username, name, password);
+      const res = await loginout.login(username, password);
+      request.setToken(res.token);
+      localStorage.setItem("userToken", res.token);
+    } catch (e) {
+      handleErr(e);
+    }
   };
 
   return (
@@ -65,14 +75,26 @@ const LoginPage = (): JSX.Element => {
               {islogin ? "登录" : "注册"}
             </Typography>
             <Grid container alignContent="center" spacing={1} justify="center">
-              <Grid item>
-                <Switch
-                  checked={islogin}
-                  onChange={(event) => {
-                    setIslogin(event.target.checked);
-                  }}
-                />
-              </Grid>
+              <Typography component="div">
+                <Grid
+                  component="label"
+                  container
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Grid item>注册</Grid>
+                  <Grid item>
+                    <ColoredSwitch
+                      checked={islogin}
+                      color="primary"
+                      onChange={(event) => {
+                        setIslogin(event.target.checked);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>登录</Grid>
+                </Grid>
+              </Typography>
               <Grid item style={{ width: "100%" }}>
                 <TextField
                   fullWidth
