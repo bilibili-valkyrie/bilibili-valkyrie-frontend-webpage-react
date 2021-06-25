@@ -11,6 +11,7 @@ const useAxiosErrorHandler = () => {
         break;
       case 401:
         snackbar.err("[401] 认证失败");
+        localStorage.removeItem("userToken");
         break;
       default:
         snackbar.err(error.message);

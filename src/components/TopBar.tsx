@@ -71,6 +71,7 @@ const MenuItems = React.forwardRef(
         handleErr(e);
       }
       request.clearToken();
+      history.push("/login");
       props.handleMenuClose();
     };
     return <MenuItem onClick={handleExitClick}>退&emsp;出</MenuItem>;
