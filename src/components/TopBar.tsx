@@ -78,7 +78,7 @@ const MenuItems = React.forwardRef(
   }
 );
 
-const TopBar = (): JSX.Element => {
+const TopBar = ({ title }: { title: string }): JSX.Element => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [token, setToken] = React.useState<string | null>(null);
@@ -125,7 +125,7 @@ const TopBar = (): JSX.Element => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            瓦尔基里
+            {title}
           </Typography>
           <div className={classes.grow} />
           <div className={classes.section}>

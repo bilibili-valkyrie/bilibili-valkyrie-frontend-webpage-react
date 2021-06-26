@@ -4,6 +4,7 @@ import "@fontsource/roboto/400.css";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import MySnackbarProvider from "./components/MySnackbarProvider";
+import AddSubscribePage from "./pages/AddSubscribePage";
 
 const App = (): JSX.Element => {
   return (
@@ -12,6 +13,9 @@ const App = (): JSX.Element => {
         <Switch>
           <Route path="/login">
             <LoginPage />
+          </Route>
+          <Route path="/addSubscribe">
+            <AddSubscribePage />
           </Route>
           <Route path="/">
             <HomePage />

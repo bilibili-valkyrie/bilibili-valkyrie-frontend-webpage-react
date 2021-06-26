@@ -67,7 +67,7 @@ const LoginPage = (): JSX.Element => {
         bottom: 0,
       }}
     >
-      <TopBar />
+      <TopBar title={islogin ? "瓦尔基里-登录" : "瓦尔基里-注册"} />
       <Container maxWidth="xs">
         <MyCard style={{ marginTop: 128 }}>
           <CardContent>
