@@ -11,15 +11,20 @@ import {
 } from "@material-ui/core";
 import { ArrowBack, ArrowForwardIos } from "@material-ui/icons";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import biliapi from "../api/biliapi";
+import subscibe from "../api/subscibe";
 import MyCard from "../components/MyCard";
 import TopBar from "../components/TopBar";
 import useAxiosErrorHandler from "../hooks/useAxiosErrorHandler";
+import useMySnackbar from "../hooks/useMySnackbar";
 
 const AddSubscribePage = () => {
   const [mid, setMid] = React.useState("");
   const [uperInfo, setUperInfo] = React.useState<Record<string, any>>();
   const { handleErr } = useAxiosErrorHandler();
+  const history = useHistory();
+  const snackbar = useMySnackbar();
   const handleClick = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -44,7 +49,13 @@ const AddSubscribePage = () => {
       <Container maxWidth="xs">
         <MyCard>
           <CardContent>
-            <IconButton style={{ position: "absolute" }}>
+            <IconButton
+              style={{ position: "absolute" }}
+              onClick={(event) => {
+                event.preventDefault();
+                history.push("/");
+              }}
+            >
               <ArrowBack />
             </IconButton>
             <Grid container justify="center">
@@ -60,6 +71,7 @@ const AddSubscribePage = () => {
                   label="up 主 UID"
                   value={mid}
                   onChange={(event) => {
+                    setUperInfo(undefined);
                     setMid(event.target.value);
                   }}
                   InputProps={{
@@ -107,7 +119,19 @@ const AddSubscribePage = () => {
                     </CardActionArea>
                   </Grid>
                   <Grid item>
-                    <Button variant="outlined" color="primary">
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={async (event) => {
+                        event.preventDefault();
+                        try {
+                          await subscibe.add(mid);
+                          snackbar.success("关注成功！");
+                        } catch (e) {
+                          handleErr(e);
+                        }
+                      }}
+                    >
                       提交
                     </Button>
                   </Grid>
