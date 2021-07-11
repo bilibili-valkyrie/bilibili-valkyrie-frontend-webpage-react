@@ -1,13 +1,19 @@
 import request from "../controller/request";
 import { UperAsJsonWhileAdd, UperAsJsonWhileGet } from "./types/UperAsJson";
+import VideoAsJson from "./types/VideoAsJson";
 
 const get = async (id: string): Promise<UperAsJsonWhileGet> => {
   const res = await request.get(`/sub/getStatus/${id}`);
   return res;
 };
 
-const getUpdates = async (id: string): Promise<UperAsJsonWhileGet> => {
+const getUpdates = async (id: string): Promise<VideoAsJson[] | []> => {
   const res = await request.get(`/sub/getUpdate/${id}`);
+  return res;
+};
+
+const getAllUpdates = async (): Promise<VideoAsJson[] | []> => {
+  const res = await request.get(`/sub/getAllUpdate`);
   return res;
 };
 
@@ -48,6 +54,7 @@ const updateVideos = async (id: string): Promise<{ updates: number }> => {
 export default {
   get,
   getUpdates,
+  getAllUpdates,
   getAll,
   add,
   del,
