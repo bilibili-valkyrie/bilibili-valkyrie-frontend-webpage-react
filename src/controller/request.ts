@@ -15,6 +15,7 @@ class RequestController {
 
   clearToken() {
     this.config = { headers: {} };
+    this.token = "";
   }
 
   async get(url: string) {
