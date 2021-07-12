@@ -7,39 +7,41 @@ import {
 import { Add } from "@material-ui/icons";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import subscibe from "../api/subscibe";
-import { UperAsJsonWhileGet } from "../api/types/UperAsJson";
 import MyCard from "../components/MyCard";
 import TopBar from "../components/TopBar";
 import UpdateList from "../components/UpdateList";
 import request from "../controller/request";
 import useAxiosErrorHandler from "../hooks/useAxiosErrorHandler";
+import { initNewVideos } from "../reducer/newVideoReducer";
+import { RootState } from "../reducer/reducerCombiner";
+import { initUpers } from "../reducer/uperReducer";
+import { useAppDispatch, useAppSelector } from "../hooks/useTypedRedux";
 
 const HomePage = (): JSX.Element => {
   const history = useHistory();
-  const { handleErr } = useAxiosErrorHandler();
-  const [upers, setUpers] = React.useState<UperAsJsonWhileGet[]>();
+  const dispatch = useAppDispatch();
+  const handleErr = useAxiosErrorHandler();
+  const upers = useAppSelector((state: RootState) => state.uper);
 
-  try {
-    React.useEffect(() => {
-      const token = localStorage.getItem("userToken");
-      if (token === null) {
-        history.push("/login");
-      } else {
-        request.setToken(token);
-      }
-      subscibe
-        .getAll()
-        .then((getedUpers) => {
-          setUpers(getedUpers);
-        })
+  React.useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    if (token === null) {
+      history.push("/login");
+    } else {
+      request.setToken(token);
+      dispatch(initNewVideos())
+        .unwrap()
         .catch((e) => {
-          throw e;
+          handleErr(e);
         });
-    }, [history]);
-  } catch (e) {
-    handleErr(e);
-  }
+      dispatch(initUpers())
+        .unwrap()
+        .catch((e) => {
+          handleErr(e);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

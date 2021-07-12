@@ -10,10 +10,12 @@ import { AccountCircle, AccountCircleOutlined } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import loginout from "../api/loginout";
 import request from "../controller/request";
 import useAxiosErrorHandler from "../hooks/useAxiosErrorHandler";
+import { RootState } from "../reducer/reducerCombiner";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,6 +37,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const NotificationButton = () => {
+  const newVideos = useSelector((state: RootState) => state.newVideo);
+  return (
+    <IconButton aria-label={`${newVideos.length} 个新视频`} color="inherit">
+      <Badge badgeContent={newVideos.length} color="secondary">
+        <NotificationsIcon />
+      </Badge>
+    </IconButton>
+  );
+};
+
 const MenuItems = React.forwardRef(
   (
     props: {
@@ -46,7 +59,7 @@ const MenuItems = React.forwardRef(
     ref
   ) => {
     const history = useHistory();
-    const { handleErr } = useAxiosErrorHandler();
+    const handleErr = useAxiosErrorHandler();
     React.useEffect(() => {
       props.setToken(localStorage.getItem("userToken"));
     }, [props]);
@@ -129,11 +142,7 @@ const TopBar = ({ title }: { title: string }): JSX.Element => {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.section}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            {request.token && <NotificationButton />}
             <IconButton
               edge="end"
               aria-label="account of current user"

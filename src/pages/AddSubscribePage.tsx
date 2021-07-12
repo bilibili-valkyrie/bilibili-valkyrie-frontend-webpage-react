@@ -22,7 +22,7 @@ import useMySnackbar from "../hooks/useMySnackbar";
 const AddSubscribePage = () => {
   const [mid, setMid] = React.useState("");
   const [uperInfo, setUperInfo] = React.useState<Record<string, any>>();
-  const { handleErr } = useAxiosErrorHandler();
+  const handleErr = useAxiosErrorHandler();
   const history = useHistory();
   const snackbar = useMySnackbar();
   const handleClick = async (

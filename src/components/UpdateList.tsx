@@ -1,21 +1,13 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
-import subscibe from "../api/subscibe";
-import VideoAsJson from "../api/types/VideoAsJson";
-import request from "../controller/request";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducer/reducerCombiner";
 import Video from "./Video";
 
 const UpdateList = () => {
-  const [videos, setVideos] = React.useState<VideoAsJson[]>([]);
-  React.useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    request.setToken(token!);
-    subscibe.getAllUpdates().then((videoAry) => {
-      setVideos(videoAry);
-    });
-  }, []);
+  const videos = useSelector((state: RootState) => state.newVideo);
   return (
-    <Grid container>
+    <Grid container spacing={1}>
       {videos.map((video) => (
         <Grid item key={video.id}>
           <Video video={video} />

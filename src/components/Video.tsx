@@ -46,7 +46,7 @@ const Video = ({ video }: { video: VideoAsJson }) => {
       <Card>
         <CardActionArea onClick={handleClick} style={{ height: "100%" }}>
           <CardContent>
-            <Typography variant="h6" component="div" gutterBottom>
+            <Typography variant="body2" gutterBottom>
               {video.title}
             </Typography>
             <Grid container spacing={1} direction="row" justify="center">

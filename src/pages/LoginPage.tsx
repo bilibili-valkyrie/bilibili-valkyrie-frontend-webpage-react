@@ -23,7 +23,7 @@ const LoginPage = (): JSX.Element => {
   const [password, setPassword] = React.useState<string>("");
   const [islogin, setIslogin] = React.useState<boolean>(false);
   const history = useHistory();
-  const { handleErr } = useAxiosErrorHandler();
+  const handleErr = useAxiosErrorHandler();
 
   const handleLoginClick = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
