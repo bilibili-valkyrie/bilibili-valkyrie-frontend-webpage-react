@@ -11,5 +11,5 @@ export default defineConfig({
       additionalLegacyPolyfills: ["regenerator-runtime/runtime"],
     }),
   ],
-  server: { proxy: { "/api": "http://127.0.0.1:3001/" } },
+  server: { proxy: { "/api": { target: "http://127.0.0.1:3001/", ws: true } } },
 });

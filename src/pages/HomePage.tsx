@@ -29,6 +29,13 @@ const HomePage = (): JSX.Element => {
       history.push("/login");
     } else {
       request.setToken(token);
+      // 此时 socket 已经初始化，可以使用，不会为空
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const socket = request.socket!;
+      socket.emit("updateAllSubscribe");
+      socket.on("updateAllSubscribe", async (msg) => {
+        console.log(msg);
+      });
       dispatch(initNewVideos())
         .unwrap()
         .catch((e) => {

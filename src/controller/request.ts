@@ -1,4 +1,5 @@
 import axios from "axios";
+import { io, Socket } from "socket.io-client";
 import backendURL from "../data/backendURL";
 
 class RequestController {
@@ -6,16 +7,24 @@ class RequestController {
 
   token: string | null = "";
 
+  socket: Socket | null = null;
+
   setToken(tokenToSet: string) {
     this.config = {
-      headers: { Authorization: `bearer ${tokenToSet}` },
+      headers: { Authorization: `Bearer ${tokenToSet}` },
     };
     this.token = tokenToSet;
+    const socket = io({
+      path: "/api/ws",
+      auth: { token: `Bearer ${tokenToSet}` },
+    });
+    this.socket = socket;
   }
 
   clearToken() {
     this.config = { headers: {} };
     this.token = "";
+    this.socket = null;
   }
 
   async get(url: string) {
