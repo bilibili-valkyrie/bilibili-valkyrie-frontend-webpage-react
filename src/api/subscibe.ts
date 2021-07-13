@@ -51,6 +51,16 @@ const updateVideos = async (id: string): Promise<{ updates: number }> => {
   return res;
 };
 
+const updateAllVideos = async (): Promise<{ updates: number }> => {
+  return new Promise((resolve) => {
+    const socket = request.socket!;
+    socket.emit("updateAllSubscribe");
+    socket.on("updateAllSubscribe", (msg) => {
+      resolve(msg);
+    });
+  });
+};
+
 export default {
   get,
   getUpdates,
@@ -61,4 +71,5 @@ export default {
   updateRead,
   setLastReadTime,
   updateVideos,
+  updateAllVideos,
 };
