@@ -32,7 +32,7 @@ const del = async (id: string): Promise<void> => {
 };
 
 const updateRead = async (id: string): Promise<UperAsJsonWhileAdd> => {
-  const res = await request.get(`/sub/markSubscribeRead/${id}`);
+  const res = await request.put(`/sub/markSubscribeRead/${id}`);
   return res;
 };
 
