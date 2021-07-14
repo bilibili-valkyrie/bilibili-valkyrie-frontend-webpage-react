@@ -52,10 +52,10 @@ const updateVideos = async (id: string): Promise<{ updates: number }> => {
 };
 
 /** 返回一个Promise，当所有up主信息更新完毕时，该Promise被resolve。
- * @param {(msg: any) => void} fun - 每当一个up主信息被更新时，该回调函数被触发一次。回调函数接收ws发送的内容作为参数。可留空。
+ * @param fun - 每当一个up主信息被更新时，该回调函数被触发一次。回调函数接收ws发送的内容作为参数。可留空。
  */
 const updateAllVideos = async (
-  fun?: (msg: any) => void
+  fun?: (msg: { name: string; updates: number; progress: number }) => void
 ): Promise<{ totalUpdates: number }> => {
   return new Promise((resolve) => {
     const socket = request.socket!;
