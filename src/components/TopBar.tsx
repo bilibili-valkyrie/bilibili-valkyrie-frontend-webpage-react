@@ -16,6 +16,7 @@ import loginout from "../api/loginout";
 import request from "../controller/request";
 import useAxiosErrorHandler from "../hooks/useAxiosErrorHandler";
 import { RootState } from "../reducer/reducerCombiner";
+import UpdateSubscribeButton from "./UpdateSubscribeButton";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -142,7 +143,12 @@ const TopBar = ({ title }: { title: string }): JSX.Element => {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.section}>
-            {request.token && <NotificationButton />}
+            {request.token && (
+              <>
+                <UpdateSubscribeButton />
+                <NotificationButton />
+              </>
+            )}
             <IconButton
               edge="end"
               aria-label="account of current user"

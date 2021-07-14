@@ -1,5 +1,4 @@
 import {
-  Button,
   CardActionArea,
   CardContent,
   Grid,
@@ -13,11 +12,10 @@ import TopBar from "../components/TopBar";
 import UpdateList from "../components/UpdateList";
 import request from "../controller/request";
 import useAxiosErrorHandler from "../hooks/useAxiosErrorHandler";
+import { useAppDispatch, useAppSelector } from "../hooks/useTypedRedux";
 import { initNewVideos } from "../reducer/newVideoReducer";
 import { RootState } from "../reducer/reducerCombiner";
 import { initUpers } from "../reducer/uperReducer";
-import { useAppDispatch, useAppSelector } from "../hooks/useTypedRedux";
-import subscibe from "../api/subscibe";
 
 const HomePage = (): JSX.Element => {
   const history = useHistory();
@@ -82,18 +80,6 @@ const HomePage = (): JSX.Element => {
           </MyCard>
         </Grid>
         <UpdateList />
-        <Grid item>
-          <Button
-            onClick={async () => {
-              const res = await subscibe.updateAllVideos((msg) => {
-                console.log(msg);
-              });
-              console.log(res);
-            }}
-          >
-            test
-          </Button>
-        </Grid>
       </Grid>
     </>
   );
