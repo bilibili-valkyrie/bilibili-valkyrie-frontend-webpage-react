@@ -1,6 +1,6 @@
 import axios from "axios";
 import { io, Socket } from "socket.io-client";
-import backendURL from "../data/backendURL";
+import backendURL, { host, backendPath } from "../data/backendURL";
 
 class RequestController {
   private config = { headers: {} };
@@ -14,8 +14,8 @@ class RequestController {
       headers: { Authorization: `Bearer ${tokenToSet}` },
     };
     this.token = tokenToSet;
-    const socket = io({
-      path: "/api/ws",
+    const socket = io(host, {
+      path: `/${backendPath}/ws`,
       auth: { token: `Bearer ${tokenToSet}` },
       autoConnect: false,
     });
