@@ -17,13 +17,16 @@ class RequestController {
     const socket = io({
       path: "/api/ws",
       auth: { token: `Bearer ${tokenToSet}` },
+      autoConnect: false,
     });
+    socket.connect();
     this.socket = socket;
   }
 
   clearToken() {
     this.config = { headers: {} };
     this.token = "";
+    this.socket?.off();
     this.socket = null;
   }
 

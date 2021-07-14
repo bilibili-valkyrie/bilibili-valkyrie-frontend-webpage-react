@@ -85,7 +85,9 @@ const HomePage = (): JSX.Element => {
         <Grid item>
           <Button
             onClick={async () => {
-              const res = await subscibe.updateAllVideos();
+              const res = await subscibe.updateAllVideos((msg) => {
+                console.log(msg);
+              });
               console.log(res);
             }}
           >
