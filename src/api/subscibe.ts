@@ -28,7 +28,7 @@ const add = async (mid: string | number): Promise<UperAsJsonWhileAdd> => {
 };
 
 const del = async (id: string): Promise<void> => {
-  await request.del(`/sub/delSubscribe:${id}`);
+  await request.del(`/sub/delSubscribe/${id}`);
 };
 
 const updateRead = async (id: string): Promise<UperAsJsonWhileAdd> => {

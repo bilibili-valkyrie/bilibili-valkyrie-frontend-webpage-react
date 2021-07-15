@@ -21,7 +21,7 @@ const LoginPage = (): JSX.Element => {
   const [username, setUsername] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
-  const [islogin, setIslogin] = React.useState<boolean>(false);
+  const [islogin, setIsLogin] = React.useState<boolean>(true);
   const history = useHistory();
   const handleErr = useAxiosErrorHandler();
 
@@ -88,7 +88,7 @@ const LoginPage = (): JSX.Element => {
                       checked={islogin}
                       color="primary"
                       onChange={(event) => {
-                        setIslogin(event.target.checked);
+                        setIsLogin(event.target.checked);
                       }}
                     />
                   </Grid>
@@ -101,6 +101,7 @@ const LoginPage = (): JSX.Element => {
                   variant="outlined"
                   type="username"
                   label="用户名"
+                  autoComplete="username"
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
                 />
@@ -110,8 +111,8 @@ const LoginPage = (): JSX.Element => {
                   <TextField
                     fullWidth
                     variant="outlined"
-                    type="username"
                     label="昵称"
+                    autoComplete="nickname"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                   />
@@ -123,6 +124,7 @@ const LoginPage = (): JSX.Element => {
                   variant="outlined"
                   type="password"
                   label="密码"
+                  autoComplete={islogin ? "current-password" : "new-password"}
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                 />

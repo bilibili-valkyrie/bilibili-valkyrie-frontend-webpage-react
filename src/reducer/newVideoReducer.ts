@@ -13,6 +13,14 @@ export const initNewVideos = createAsyncThunk(
   }
 );
 
+export const addNewVideos = createAsyncThunk(
+  "newVideo/addNewVideos",
+  async (id: string) => {
+    const newVideos = await subscibe.getUpdates(id);
+    return newVideos;
+  }
+);
+
 export const newVideoSlice = createSlice({
   name: "newVideo",
   initialState,
@@ -24,9 +32,10 @@ export const newVideoSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(initNewVideos.pending, () => []);
     builder.addCase(initNewVideos.fulfilled, (state, action) => {
-      action.payload.forEach((newVideo) => {
-        state.push(newVideo);
-      });
+      state.push(...action.payload);
+    });
+    builder.addCase(addNewVideos.fulfilled, (state, action) => {
+      state.push(...action.payload);
     });
   },
 });
