@@ -117,6 +117,13 @@ const UperAction = ({
         handleErr(err);
       });
   };
+
+  const handleOpenSpace = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    window.open(`https://space.bilibili.com/${uper.mid}`);
+  };
   return (
     <ClickAwayListener
       onClickAway={() => {
@@ -124,7 +131,7 @@ const UperAction = ({
       }}
     >
       <Card raised style={{ minHeight: 100 }}>
-        <CardContent style={{ padding: 0 }}>
+        <CardContent style={{ padding: 4 }}>
           <Grid
             container
             justify="center"
@@ -133,8 +140,9 @@ const UperAction = ({
             style={{ minHeight: 100 }}
           >
             <CustomButton onClick={handleReaded}>已读</CustomButton>
-            <CustomButton onClick={handleDelete}>删除</CustomButton>
             <CustomButton onClick={handleUpdate}>更新</CustomButton>
+            <CustomButton onClick={handleOpenSpace}>空间</CustomButton>
+            <CustomButton onClick={handleDelete}>取关</CustomButton>
           </Grid>
         </CardContent>
       </Card>
@@ -157,6 +165,7 @@ const Uper = ({ uper }: { uper: UperAsJsonWhileGet }) => {
 
 const Upers = () => {
   const history = useHistory();
+  console.log(history);
   const upers = useAppSelector((state: RootState) => state.uper);
   return (
     <Grid container spacing={1}>

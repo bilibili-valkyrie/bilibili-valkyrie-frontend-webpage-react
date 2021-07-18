@@ -37,7 +37,11 @@ const HomePage = (): JSX.Element => {
   return (
     <>
       <TopBar title="瓦尔基里" />
-      <Typography gutterBottom>点击up主卡片设置已读</Typography>
+      <Typography gutterBottom>
+        页面右上角刷新键可获取全部更新
+        <br />
+        点击up主卡片进行单独操作
+      </Typography>
       <Grid container spacing={1}>
         <Upers />
         <UpdateList />
