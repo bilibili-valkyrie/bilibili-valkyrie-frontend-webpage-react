@@ -165,7 +165,6 @@ const Uper = ({ uper }: { uper: UperAsJsonWhileGet }) => {
 
 const Upers = () => {
   const history = useHistory();
-  console.log(history);
   const upers = useAppSelector((state: RootState) => state.uper);
   return (
     <Grid container spacing={1}>
